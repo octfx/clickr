@@ -1,0 +1,39 @@
+{
+  "name": "clickr",
+  "version": "0.0.0",
+  "description": "A clicker game",
+  "main": "dist/clickr.js",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "webpack --mode=production",
+    "build": "npm run build:types && npm run build:js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "paper": "^0.12.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-typescript": "^7.8.3",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.8.0",
+    "fork-ts-checker-webpack-plugin": "^4.0.3",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.2"
+  },
+  "resolutions": {
+    "terser": "3.14.1"
+  }
+}
