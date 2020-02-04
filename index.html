@@ -15,7 +15,46 @@
         div {
             text-align: center;
             position: absolute;
+            display: flex;
             width: 100%;
+            justify-content: space-evenly;
+            padding-top: 10px;
+            font-size: 20px;
+        }
+
+        span {
+            pointer-events: none;
+            user-select: none;
+        }
+
+        canvas {
+            pointer-events: auto;
+        }
+
+        #start {
+            position: absolute;
+            top: calc(50vh - 100px);
+            border: 0;
+            background: #2196F3;
+            color: #fff;
+            width: 200px;
+            height: 80px;
+            border-radius: 1rem;
+            font-size: 2rem;
+            left: calc(50vw - 100px);
+            outline: none;
+        }
+
+        #start:hover {
+            background: #2181cc;
+        }
+
+        #start:active {
+            background: #2171af;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -23,9 +62,9 @@
 <div id="display">
     <button id="start">Start</button>
     <span>
-        <span id="count">0</span>
+        <span id="counter">0</span>
         /
-        <span id="countMax">0</span>
+        <span id="counterMax">0</span>
     </span>
     <span>
         <span id="timer">0.000</span>

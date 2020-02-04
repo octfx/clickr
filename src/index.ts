@@ -1,7 +1,7 @@
 import {PaperScope, Size} from 'paper';
-import {FrameEvent} from "./framevent";
-import Point from "./point";
-import Timer from "./timer";
+
+import InfoDisplay from "./info_display";
+import Game from "./game";
 
 export default class Clickr {
 
@@ -12,12 +12,6 @@ export default class Clickr {
      */
     private _canvas: HTMLCanvasElement | undefined;
 
-    private readonly _points: Map<number, Point>;
-
-    private timer: Timer | undefined;
-    private done = false;
-    private pointNum = 30;
-    private counter = 0;
 
     /**
      * Paper _scope containing all menu items
@@ -26,22 +20,23 @@ export default class Clickr {
      */
     private _scope: paper.PaperScope | undefined;
 
+    private game: Game;
+
     private readonly button: HTMLElement;
-    private readonly count: HTMLElement;
-    private readonly countMax: HTMLElement;
 
     constructor() {
-        this.setupDisplay();
         this.setupCanvas();
         this.setupScope();
-        this._points = new Map<number, Point>();
+
         this.button = <HTMLElement>document.getElementById('start');
-        this.button.addEventListener('click', () => {
-            this.start();
+        this.button.addEventListener('click', (event:MouseEvent) => {
+            this.game.start();
+
+            (<HTMLElement>event.target).classList.add('hidden');
         });
 
-        this.count = <HTMLElement>document.getElementById('count');
-        this.countMax = <HTMLElement>document.getElementById('countMax');
+        const infoDisplay = new InfoDisplay();
+        this.game = new Game(30, (<paper.PaperScope>this._scope).view.viewSize, infoDisplay, (<paper.PaperScope>this._scope).project.activeLayer);
     }
 
     /**
@@ -53,61 +48,6 @@ export default class Clickr {
         }
 
         return this._canvas;
-    }
-
-    public start() {
-        this.button.style.display = 'none';
-        this.countMax.innerText = String(this.pointNum);
-
-        const addPoint = () => {
-            const point = new Point();
-            //@ts-ignore
-            point.pointMap = this._points;
-            //@ts-ignore
-            point.scope = this._scope;
-            point.init();
-
-            point.callBack = () => {
-                console.log('SIZE: ' + this._points.size);
-                this.counter++;
-                this.count.innerText = String(this.counter);
-                if (this._points.size === 1) {
-                    this.stop();
-                }
-            };
-
-            this._points.set(point.id, point)
-        };
-
-        (<paper.PaperScope>this._scope).project.activeLayer.onFrame = (e: FrameEvent) => {
-            if (this.done) {
-                return;
-            }
-
-            if (this._points.size === 30) {
-                this.done = true;
-            }
-
-            if (e.count % 5 === 0) {
-                addPoint();
-            }
-        };
-
-        (<Timer>this.timer).start();
-    }
-
-    private stop() {
-        (<paper.PaperScope>this._scope).project.activeLayer.onFrame = null;
-        (<paper.PaperScope>this._scope).project.activeLayer.onClick = null;
-        (<Timer>this.timer).stop();
-        this.button.style.display = '';
-        this.done = false;
-        this.counter = 0;
-    }
-
-    private setupDisplay() {
-        const timer = document.getElementById('timer');
-        this.timer = new Timer(<HTMLElement>timer);
     }
 
     /**

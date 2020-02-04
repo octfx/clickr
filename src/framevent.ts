@@ -1,5 +1,5 @@
 export interface FrameEvent {
-    count: number;
-    time: number;
-    delta: number;
+    readonly count: number;
+    readonly time: number;
+    readonly delta: number;
 }
